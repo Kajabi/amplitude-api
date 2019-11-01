@@ -72,8 +72,7 @@ class AmplitudeAPI
 
       JSON.generate({
         api_key: api_key,
-        events: event_body
-      })
+        events: JSON.generate(event_body)
     end
 
     # @overload track(event)
@@ -86,9 +85,10 @@ class AmplitudeAPI
     #
     # Send one or more Events to the Amplitude API
     def track(*events)
-      Typhoeus.post(TRACK_URI_STRING,
-                    headers: { 'Content-Type' => 'application/json' },
-                    body: track_body(events))
+      Typhoeus.post(
+        TRACK_URI_STRING,
+        headers: { 'Content-Type': 'application/json' },
+        body: track_body(events))
     end
 
     # ==== Identification related methods
