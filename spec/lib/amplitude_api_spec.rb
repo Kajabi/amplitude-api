@@ -17,9 +17,9 @@ describe AmplitudeAPI do
           )
           body = JSON.generate({
             api_key: described_class.api_key,
-            events: JSON.generate([event.to_hash])
-          }
-          headers = { 'Content-Type': 'application/json' }
+            events: [event.to_hash]
+          })
+          headers = { 'Content-Type' => 'application/json' }
 
           expect(Typhoeus).to receive(:post).with(AmplitudeAPI::TRACK_URI_STRING, headers: headers, body: body)
 
@@ -35,9 +35,9 @@ describe AmplitudeAPI do
           )
           body = JSON.generate({
             api_key: described_class.api_key,
-            events: JSON.generate([event.to_hash])
-          }
-          headers = { 'Content-Type': 'application/json' }
+            events: [event.to_hash]
+          })
+          headers = { 'Content-Type' => 'application/json' }
 
           expect(Typhoeus).to receive(:post).with(AmplitudeAPI::TRACK_URI_STRING, headers: headers, body: body)
 
@@ -54,9 +54,9 @@ describe AmplitudeAPI do
           )
           body = JSON.generate({
             api_key: described_class.api_key,
-            events: JSON.generate([event.to_hash])
-          }
-          headers = { 'Content-Type': 'application/json' }
+            events: [event.to_hash]
+          })
+          headers = { 'Content-Type' => 'application/json' }
 
           expect(Typhoeus).to receive(:post).with(AmplitudeAPI::TRACK_URI_STRING, headers: headers, body: body)
 
@@ -77,9 +77,9 @@ describe AmplitudeAPI do
         )
         body = JSON.generate({
           api_key: described_class.api_key,
-          events: JSON.generate([event.to_hash, event2.to_hash])
-        }
-        headers = { 'Content-Type': 'application/json' }
+          events: [event.to_hash, event2.to_hash]
+        })
+        headers = { 'Content-Type' => 'application/json' }
 
         expect(Typhoeus).to receive(:post).with(AmplitudeAPI::TRACK_URI_STRING, headers: headers, body: body)
 
@@ -393,7 +393,7 @@ describe AmplitudeAPI do
           AmplitudeAPI::DELETION_URI_STRING,
           userpwd: "#{described_class.api_key}:#{described_class.config.secret_key}",
           body: JSON.generate(body),
-          headers: { 'Content-Type': 'application/json' }
+          headers: { 'Content-Type' => 'application/json' }
         )
         described_class.delete(user_ids: '123')
       end
@@ -410,7 +410,7 @@ describe AmplitudeAPI do
           AmplitudeAPI::DELETION_URI_STRING,
           userpwd: "#{described_class.api_key}:#{described_class.config.secret_key}",
           body: JSON.generate(body),
-          headers: { 'Content-Type': 'application/json' }
+          headers: { 'Content-Type' => 'application/json' }
         )
         described_class.delete(user_ids: user_ids)
       end
@@ -428,7 +428,7 @@ describe AmplitudeAPI do
             AmplitudeAPI::DELETION_URI_STRING,
             userpwd: "#{described_class.api_key}:#{described_class.config.secret_key}",
             body: JSON.generate(body),
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type' => 'application/json' }
           )
           described_class.delete(
             amplitude_ids: amplitude_ids,
@@ -449,7 +449,7 @@ describe AmplitudeAPI do
           AmplitudeAPI::DELETION_URI_STRING,
           userpwd: "#{described_class.api_key}:#{described_class.config.secret_key}",
           body: JSON.generate(body),
-          headers: { 'Content-Type': 'application/json' }
+          headers: { 'Content-Type' => 'application/json' }
         )
         described_class.delete(amplitude_ids: amplitude_ids)
       end
@@ -465,7 +465,7 @@ describe AmplitudeAPI do
           AmplitudeAPI::DELETION_URI_STRING,
           userpwd: "#{described_class.api_key}:#{described_class.config.secret_key}",
           body: JSON.generate(body),
-          headers: { 'Content-Type': 'application/json' }
+          headers: { 'Content-Type' => 'application/json' }
         )
         described_class.delete(amplitude_ids: 122)
       end
@@ -485,7 +485,7 @@ describe AmplitudeAPI do
           AmplitudeAPI::DELETION_URI_STRING,
           userpwd: userpwd,
           body: JSON.generate(body),
-          headers: { 'Content-Type': 'application/json' }
+          headers: { 'Content-Type' => 'application/json' }
         )
         described_class.delete(
           amplitude_ids: amplitude_ids,
@@ -505,8 +505,8 @@ describe AmplitudeAPI do
         }
       )
       json_body = described_class.track_body(event)
-      body = JSON.parse(json_body, symbolize_names: true)
-      expect(body[:api_key]).to eq('stub api key')
+      body = JSON.parse(json_body)
+      expect(body["api_key"]).to eq('stub api key')
     end
 
     it 'creates an event' do
@@ -523,7 +523,6 @@ describe AmplitudeAPI do
       )
       json_body = described_class.track_body(event)
       body = JSON.parse(json_body, symbolize_names: true)
-
       expected = [
         {
           event_type: 'test_event',
@@ -537,7 +536,7 @@ describe AmplitudeAPI do
           ip: '8.8.8.8'
         }
       ]
-      expect(JSON.parse(body[:events], symbolize_names: true)).to eq(expected)
+      expect(body[:events]).to eq(expected)
     end
   end
 end

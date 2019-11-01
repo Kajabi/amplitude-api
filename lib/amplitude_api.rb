@@ -72,7 +72,9 @@ class AmplitudeAPI
 
       JSON.generate({
         api_key: api_key,
-        events: JSON.generate(event_body)
+        events: event_body
+      })
+
     end
 
     # @overload track(event)
@@ -87,7 +89,7 @@ class AmplitudeAPI
     def track(*events)
       Typhoeus.post(
         TRACK_URI_STRING,
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type' => 'application/json' },
         body: track_body(events))
     end
 
@@ -187,7 +189,7 @@ class AmplitudeAPI
         DELETION_URI_STRING,
         userpwd: "#{api_key}:#{config.secret_key}",
         body: delete_body(user_ids, amplitude_ids, requester),
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 'Content-Type' => 'application/json' }
       )
     end
 
