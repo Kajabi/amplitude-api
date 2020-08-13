@@ -47,18 +47,6 @@ AmplitudeAPI.delete(user_ids: [233],
 )
 ```
 
-Currently, we are using this in Rails and using ActiveJob to dispatch events asynchronously. I plan on moving 
-background/asynchronous support into this gem.
-
-## What's Next
-
-* Thread support for background dispatching in bulk
-* Configurable default account to use when no `user_id` present
-
 ## Other useful resources
 * [Amplitude HTTP Api Documentation](https://amplitude.zendesk.com/hc/en-us/articles/204771828)
 * [Segment.io Amplitude integration](https://segment.com/docs/integrations/amplitude/)
-
-## Contributing
-
-I'd love to hear how you're using this. Please check out the [issues](https://github.com/toothrot/amplitude-api/issues).
