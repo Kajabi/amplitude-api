@@ -5,6 +5,7 @@ require 'spec_helper'
 describe AmplitudeAPI do
   let(:user) { Struct.new(:id).new(123) }
   let(:device_id) { 'abcdef' }
+  let(:default_headers) { { 'Content-Type' => 'application/json' } }
 
   describe '.track' do
     context 'with a single event' do
@@ -14,12 +15,12 @@ describe AmplitudeAPI do
             user_id: 123,
             event_type: 'clicked on sign up'
           )
-          body = {
+          body = JSON.generate({
             api_key: described_class.api_key,
-            event: JSON.generate([event.to_hash])
-          }
+            events: [event.to_hash]
+          })
 
-          expect(Typhoeus).to receive(:post).with(AmplitudeAPI::TRACK_URI_STRING, body: body)
+          expect(Typhoeus).to receive(:post).with(AmplitudeAPI::TRACK_URI_STRING, headers: default_headers, body: body)
 
           described_class.track(event)
         end
@@ -31,12 +32,12 @@ describe AmplitudeAPI do
             device_id: device_id,
             event_type: 'clicked on sign up'
           )
-          body = {
+          body = JSON.generate({
             api_key: described_class.api_key,
-            event: JSON.generate([event.to_hash])
-          }
+            events: [event.to_hash]
+          })
 
-          expect(Typhoeus).to receive(:post).with(AmplitudeAPI::TRACK_URI_STRING, body: body)
+          expect(Typhoeus).to receive(:post).with(AmplitudeAPI::TRACK_URI_STRING, headers: default_headers, body: body)
 
           described_class.track(event)
         end
@@ -49,12 +50,12 @@ describe AmplitudeAPI do
             device_id: device_id,
             event_type: 'clicked on sign up'
           )
-          body = {
+          body = JSON.generate({
             api_key: described_class.api_key,
-            event: JSON.generate([event.to_hash])
-          }
+            events: [event.to_hash]
+          })
 
-          expect(Typhoeus).to receive(:post).with(AmplitudeAPI::TRACK_URI_STRING, body: body)
+          expect(Typhoeus).to receive(:post).with(AmplitudeAPI::TRACK_URI_STRING, headers: default_headers, body: body)
 
           described_class.track(event)
         end
@@ -71,12 +72,12 @@ describe AmplitudeAPI do
           user_id: 456,
           event_type: 'liked a widget'
         )
-        body = {
+        body = JSON.generate({
           api_key: described_class.api_key,
-          event: JSON.generate([event.to_hash, event2.to_hash])
-        }
+          events: [event.to_hash, event2.to_hash]
+        })
 
-        expect(Typhoeus).to receive(:post).with(AmplitudeAPI::TRACK_URI_STRING, body: body)
+        expect(Typhoeus).to receive(:post).with(AmplitudeAPI::TRACK_URI_STRING, headers: default_headers, body: body)
 
         described_class.track([event, event2])
       end
@@ -499,7 +500,8 @@ describe AmplitudeAPI do
           test_property: 1
         }
       )
-      body = described_class.track_body(event)
+      json_body = described_class.track_body(event)
+      body = JSON.parse(json_body, symbolize_names: true)
       expect(body[:api_key]).to eq('stub api key')
     end
 
@@ -515,7 +517,8 @@ describe AmplitudeAPI do
         },
         ip: '8.8.8.8'
       )
-      body = described_class.track_body(event)
+      json_body = described_class.track_body(event)
+      body = JSON.parse(json_body, symbolize_names: true)
 
       expected = [
         {
@@ -530,7 +533,7 @@ describe AmplitudeAPI do
           ip: '8.8.8.8'
         }
       ]
-      expect(JSON.parse(body[:event], symbolize_names: true)).to eq(expected)
+      expect(body[:events]).to eq(expected)
     end
   end
 end
