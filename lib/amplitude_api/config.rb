@@ -21,7 +21,7 @@ class AmplitudeAPI
           secret_key: nil,
           whitelist: %i[user_id device_id event_type time
                         event_properties user_properties time ip platform country insert_id session_id
-                        revenue_type price quantity product_id],
+                        revenue_type price quantity product_id revenue],
           time_formatter: ->(time) { time ? time.to_i * 1_000 : nil },
           event_properties_formatter: ->(props) { props || {} },
           user_properties_formatter: ->(props) { props || {} }
