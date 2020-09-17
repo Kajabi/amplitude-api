@@ -36,9 +36,10 @@ class AmplitudeAPI
         event_properties: formatted_event_properties,
         user_properties: formatted_user_properties
       }
+
       event[:user_id] = user_id if user_id
       event[:device_id] = device_id if device_id
-      event.merge(optional_properties).merge(revenue_hash)
+      event.merge(optional_properties).merge(revenue_hash).merge(groups_hash)
     end
     alias to_h to_hash
 
@@ -85,6 +86,10 @@ class AmplitudeAPI
       Config.instance.user_properties_formatter.call(user_properties)
     end
 
+    def formatted_groups
+      Config.instance.groups_formatter.call(groups)
+    end
+
     def validate_arguments
       validate_required_arguments
       validate_revenue_arguments
@@ -109,6 +114,12 @@ class AmplitudeAPI
       revenue_hash[:quantity] = quantity if quantity
       revenue_hash[:price] = price if price
       revenue_hash
+    end
+
+    def groups_hash
+      groups = formatted_groups
+
+      groups.keys.length > 0 ? { groups: groups } : {}
     end
 
     def getopt(options, key, default = nil)
