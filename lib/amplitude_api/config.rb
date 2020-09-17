@@ -8,7 +8,7 @@ class AmplitudeAPI
     include Singleton
 
     attr_accessor :api_key, :secret_key, :whitelist, :time_formatter,
-                  :event_properties_formatter, :user_properties_formatter,
+                  :event_properties_formatter, :user_properties_formatter, :groups_formatter,
                   :options
 
     def initialize
@@ -44,7 +44,8 @@ class AmplitudeAPI
           whitelist: base_properties + revenue_properties + optional_properties,
           time_formatter: ->(time) { time ? time.to_i * 1_000 : nil },
           event_properties_formatter: ->(props) { props || {} },
-          user_properties_formatter: ->(props) { props || {} }
+          user_properties_formatter: ->(props) { props || {} },
+          groups_formatter: ->(props) { props || {} }
         }
       end
     end
