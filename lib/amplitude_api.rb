@@ -35,7 +35,7 @@ class AmplitudeAPI
 
     # ==== Event Tracking related methods
 
-    # Send a single event immediately to the AmplitudeAPI
+    # Send a single event immediately to the Amplitude API
     #
     # @param [ String ] event_name a string that describes the event, e.g. "clicked on Home"
     # @param [ String ] user a string or integer that uniquely identifies a user.
