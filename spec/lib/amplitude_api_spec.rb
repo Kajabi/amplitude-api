@@ -21,7 +21,7 @@ describe AmplitudeAPI do
           })
           headers = { 'Content-Type' => 'application/json' }
 
-          expect(Typhoeus).to receive(:post).with(AmplitudeAPI::TRACK_URI_STRING, headers: headers, body: body)
+          expect(Faraday).to receive(:post).with(AmplitudeAPI::TRACK_URI_STRING, headers: headers, body: body)
 
           described_class.track(event)
         end
@@ -39,7 +39,7 @@ describe AmplitudeAPI do
           })
           headers = { 'Content-Type' => 'application/json' }
 
-          expect(Typhoeus).to receive(:post).with(AmplitudeAPI::TRACK_URI_STRING, headers: headers, body: body)
+          expect(Faraday).to receive(:post).with(AmplitudeAPI::TRACK_URI_STRING, headers: headers, body: body)
 
           described_class.track(event)
         end
@@ -58,7 +58,7 @@ describe AmplitudeAPI do
           })
           headers = { 'Content-Type' => 'application/json' }
 
-          expect(Typhoeus).to receive(:post).with(AmplitudeAPI::TRACK_URI_STRING, headers: headers, body: body)
+          expect(Faraday).to receive(:post).with(AmplitudeAPI::TRACK_URI_STRING, headers: headers, body: body)
 
           described_class.track(event)
         end
@@ -81,7 +81,7 @@ describe AmplitudeAPI do
         })
         headers = { 'Content-Type' => 'application/json' }
 
-        expect(Typhoeus).to receive(:post).with(AmplitudeAPI::TRACK_URI_STRING, headers: headers, body: body)
+        expect(Faraday).to receive(:post).with(AmplitudeAPI::TRACK_URI_STRING, headers: headers, body: body)
 
         described_class.track([event, event2])
       end
@@ -104,7 +104,7 @@ describe AmplitudeAPI do
             identification: JSON.generate([identification.to_hash])
           }
 
-          expect(Typhoeus).to receive(:post).with(AmplitudeAPI::IDENTIFY_URI_STRING, body: body)
+          expect(Faraday).to receive(:post).with(AmplitudeAPI::IDENTIFY_URI_STRING, body: body)
 
           described_class.identify(identification)
         end
@@ -124,7 +124,7 @@ describe AmplitudeAPI do
             identification: JSON.generate([identification.to_hash])
           }
 
-          expect(Typhoeus).to receive(:post).with(AmplitudeAPI::IDENTIFY_URI_STRING, body: body)
+          expect(Faraday).to receive(:post).with(AmplitudeAPI::IDENTIFY_URI_STRING, body: body)
 
           described_class.identify(identification)
         end
@@ -145,7 +145,7 @@ describe AmplitudeAPI do
             identification: JSON.generate([identification.to_hash])
           }
 
-          expect(Typhoeus).to receive(:post).with(AmplitudeAPI::IDENTIFY_URI_STRING, body: body)
+          expect(Faraday).to receive(:post).with(AmplitudeAPI::IDENTIFY_URI_STRING, body: body)
 
           described_class.identify(identification)
         end
@@ -173,7 +173,7 @@ describe AmplitudeAPI do
           identification: JSON.generate([identification.to_hash, identification2.to_hash])
         }
 
-        expect(Typhoeus).to receive(:post).with(AmplitudeAPI::IDENTIFY_URI_STRING, body: body)
+        expect(Faraday).to receive(:post).with(AmplitudeAPI::IDENTIFY_URI_STRING, body: body)
 
         described_class.identify([identification, identification2])
       end
@@ -368,7 +368,7 @@ describe AmplitudeAPI do
     let(:start_time) { end_time - 60 * 60 * 24 } # -1 day
 
     it 'sends request to Amplitude' do
-      expect(Typhoeus).to receive(:get).with(AmplitudeAPI::SEGMENTATION_URI_STRING,
+      expect(Faraday).to receive(:get).with(AmplitudeAPI::SEGMENTATION_URI_STRING,
                                              userpwd: "#{described_class.api_key}:#{described_class.secret_key}",
                                              params: {
                                                e: { event_type: 'my event' }.to_json,
@@ -389,7 +389,7 @@ describe AmplitudeAPI do
           user_ids: ['123']
         }
 
-        expect(Typhoeus).to receive(:post).with(
+        expect(Faraday).to receive(:post).with(
           AmplitudeAPI::DELETION_URI_STRING,
           userpwd: "#{described_class.api_key}:#{described_class.config.secret_key}",
           body: JSON.generate(body),
@@ -406,7 +406,7 @@ describe AmplitudeAPI do
           user_ids: user_ids
         }
 
-        expect(Typhoeus).to receive(:post).with(
+        expect(Faraday).to receive(:post).with(
           AmplitudeAPI::DELETION_URI_STRING,
           userpwd: "#{described_class.api_key}:#{described_class.config.secret_key}",
           body: JSON.generate(body),
@@ -424,7 +424,7 @@ describe AmplitudeAPI do
             user_ids: user_ids
           }
 
-          expect(Typhoeus).to receive(:post).with(
+          expect(Faraday).to receive(:post).with(
             AmplitudeAPI::DELETION_URI_STRING,
             userpwd: "#{described_class.api_key}:#{described_class.config.secret_key}",
             body: JSON.generate(body),
@@ -445,7 +445,7 @@ describe AmplitudeAPI do
           amplitude_ids: amplitude_ids
         }
 
-        expect(Typhoeus).to receive(:post).with(
+        expect(Faraday).to receive(:post).with(
           AmplitudeAPI::DELETION_URI_STRING,
           userpwd: "#{described_class.api_key}:#{described_class.config.secret_key}",
           body: JSON.generate(body),
@@ -461,7 +461,7 @@ describe AmplitudeAPI do
           amplitude_ids: [122]
         }
 
-        expect(Typhoeus).to receive(:post).with(
+        expect(Faraday).to receive(:post).with(
           AmplitudeAPI::DELETION_URI_STRING,
           userpwd: "#{described_class.api_key}:#{described_class.config.secret_key}",
           body: JSON.generate(body),
@@ -481,7 +481,7 @@ describe AmplitudeAPI do
         }
         userpwd = "#{described_class.api_key}:#{described_class.config.secret_key}"
 
-        expect(Typhoeus).to receive(:post).with(
+        expect(Faraday).to receive(:post).with(
           AmplitudeAPI::DELETION_URI_STRING,
           userpwd: userpwd,
           body: JSON.generate(body),
