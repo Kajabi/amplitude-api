@@ -74,7 +74,6 @@ class AmplitudeAPI
         api_key: api_key,
         events: event_body
       })
-
     end
 
     # @overload track(event)
