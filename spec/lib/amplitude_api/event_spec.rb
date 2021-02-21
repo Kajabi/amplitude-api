@@ -102,8 +102,21 @@ describe AmplitudeAPI::Event do
       end
     end
 
-    context "the user does not send in a price" do
-      it "raises an error if the user sends in a product_id" do
+    context "the user sends a revenue_type or a product_id" do
+      it "raises an error if there is not a price neither a revenue" do
+        pending
+      end
+      it "does not raise an error if there is a price" do
+        pending
+      end
+      it "does not raise an error if there is a revenue" do
+        pending
+      end
+    end
+
+    context "the user does not send neither a price nor a revenue" do
+      it 'raises an error if the user sends in a product_id' do
+
         expect do
           described_class.new(
             user_id: 123,
@@ -243,17 +256,7 @@ describe AmplitudeAPI::Event do
         expect(event.to_hash[:price]).to eq(price)
       end
 
-      it "sets the quantity to 1 if the price is set and the quantity is not" do
-        price = 100_000.99
-        event = described_class.new(
-          user_id: 123,
-          event_type: "clicked on home",
-          price: price
-        )
-        expect(event.to_hash[:quantity]).to eq(1)
-      end
-
-      it "includes the quantity if it is set" do
+      it 'includes the quantity if it is set' do
         quantity = 100
         event = described_class.new(
           user_id: 123,
@@ -264,8 +267,20 @@ describe AmplitudeAPI::Event do
         expect(event.to_hash[:quantity]).to eq(quantity)
       end
 
-      it "includes the productID if set" do
-        product_id = "hopscotch.subscriptions.rule"
+      it "includes the revenue if it is set" do
+        revenue = 100
+        event = described_class.new(
+          user_id: 123,
+          event_type: 'clicked on home',
+          quantity: 456,
+          revenue: revenue
+        )
+        expect(event.to_hash[:revenue]).to eq(revenue)
+      end
+
+      it 'includes the productID if set' do
+        product_id = 'hopscotch.subscriptions.rule'
+
         event = described_class.new(
           user_id: 123,
           event_type: "clicked on home",
