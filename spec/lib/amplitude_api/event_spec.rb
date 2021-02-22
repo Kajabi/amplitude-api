@@ -181,17 +181,6 @@ describe AmplitudeAPI::Event do
       expect(event.to_hash[:event_properties]).to eq(abc: :def)
     end
 
-    it "includes groups when provided" do
-      event = described_class.new(
-        user_id: 123,
-        event_type: 'clicked on home',
-        event_properties: { abc: :def },
-        groups: { account_id: "4242" }
-      )
-
-      expect(event.to_hash[:groups]).to eq(account_id: "4242")
-    end
-
     describe "time" do
       it "includes a time for the event" do
 
@@ -282,7 +271,6 @@ describe AmplitudeAPI::Event do
       end
 
       it "includes the quantity if it is set" do
-
         quantity = 100
         event = described_class.new(
           user_id: 123,
@@ -306,10 +294,10 @@ describe AmplitudeAPI::Event do
 
       it "includes the productID if set" do
         product_id = "hopscotch.subscriptions.rule"
-
         event = described_class.new(
           user_id: 123,
           event_type: "clicked on home",
+
           price: 199.99,
           product_id: product_id
         )
