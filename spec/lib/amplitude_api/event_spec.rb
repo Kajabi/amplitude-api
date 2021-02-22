@@ -103,7 +103,6 @@ describe AmplitudeAPI::Event do
     end
 
     context "the user sends a revenue_type or a product_id" do
-
       it "raises an error if there is not a price neither a revenue" do
         expect do
           described_class.new(
@@ -282,11 +281,12 @@ describe AmplitudeAPI::Event do
         expect(event.to_hash[:price]).to eq(price)
       end
 
-      it 'includes the quantity if it is set' do
+      it "includes the quantity if it is set" do
+
         quantity = 100
         event = described_class.new(
           user_id: 123,
-          event_type: "clicked on home",
+          event_type: 'clicked on home',
           quantity: quantity,
           price: 10.99
         )
@@ -304,8 +304,8 @@ describe AmplitudeAPI::Event do
         expect(event.to_hash[:revenue]).to eq(revenue)
       end
 
-      it 'includes the productID if set' do
-        product_id = 'hopscotch.subscriptions.rule'
+      it "includes the productID if set" do
+        product_id = "hopscotch.subscriptions.rule"
 
         event = described_class.new(
           user_id: 123,
