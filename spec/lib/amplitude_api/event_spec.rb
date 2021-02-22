@@ -116,7 +116,7 @@ describe AmplitudeAPI::Event do
           described_class.new(
             user_id: 123,
             event_type: "bad event",
-            revenue_type: "whatever",
+            revenue_type: "whatever"
           )
         end.to raise_error ArgumentError, /You must provide a price or a revenue/
       end
@@ -286,7 +286,7 @@ describe AmplitudeAPI::Event do
         quantity = 100
         event = described_class.new(
           user_id: 123,
-          event_type: 'clicked on home',
+          event_type: "clicked on home",
           quantity: quantity,
           price: 10.99
         )
@@ -297,7 +297,7 @@ describe AmplitudeAPI::Event do
         revenue = 100
         event = described_class.new(
           user_id: 123,
-          event_type: 'clicked on home',
+          event_type: "clicked on home",
           quantity: 456,
           revenue: revenue
         )
@@ -343,9 +343,7 @@ describe AmplitudeAPI::Event do
   describe "arbitrary properties" do
     # We need to create a class for each test because the methods we are calling
     # in this test group are modifying the class
-    let(:klass) {
-      Class.new described_class
-    }
+    let(:klass) { Class.new described_class }
 
     let(:event) {
       klass.new(
@@ -378,7 +376,7 @@ describe AmplitudeAPI::Event do
 
       hash = event.to_hash
 
-      expect(hash).to include({ arbitrary_property: "arbitrary value" })
+      expect(hash).to include(arbitrary_property: "arbitrary value")
     end
   end
 end
