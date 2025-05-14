@@ -19,7 +19,7 @@ AmplitudeAPI.config.api_key = "abcdef123456"
 
 
 event = AmplitudeAPI::Event.new({
-  user_id: "123",
+  user_id: "12345",
   event_type: "clicked on home",
   time: Time.now,
   insert_id: 'f47ac10b-58cc-4372-a567-0e02b2c3d479',
@@ -30,6 +30,31 @@ event = AmplitudeAPI::Event.new({
 })
 AmplitudeAPI.track(event)
 ```
+
+You can track multiple events with a single call, with the only limit of the payload
+size imposed by Amplitude:
+
+```ruby
+event_1 = AmplitudeAPI::Event.new(...)
+event_2 = AmplitudeAPI::Event.new(...)
+
+AmplitudeAPI.track(event_1, event_2)
+```
+
+```ruby
+events = [event_1, event_2]
+
+AmplitudeAPI.track(*events)
+```
+
+In case you use an integer as the time, it is expected to be in seconds. Values in
+the time field will be converted to milliseconds using `->(time) { time ? time.to_i * 1_000 : nil }`
+You can change this behaviour and use your custom formatter. For example, in case
+you wanted to use milliseconds instead of seconds you could do this:
+```ruby
+AmplitudeAPI.config.time_formatter = ->(time) { time ? time.to_i : nil },
+```
+
 
 ## User Privacy APIs
 
@@ -42,11 +67,19 @@ AmplitudeAPI.config.api_key = "abcdef123456"
 # Configure your Amplitude Secret Key
 AmplitudeAPI.config.secret_key = "secretMcSecret"
 
-AmplitudeAPI.delete(user_ids: [233],
+AmplitudeAPI.delete(user_ids: ["12345"],
   requester: "privacy@example.com"
 )
 ```
+Currently, we are using this in Rails and using ActiveJob to dispatch events asynchronously. I plan on moving
+background/asynchronous support into this gem.
+
+## What's Next
+
+* Thread support for background dispatching in bulk
+* Configurable default account to use when no `user_id` present
+
 
 ## Other useful resources
-* [Amplitude HTTP Api Documentation](https://amplitude.zendesk.com/hc/en-us/articles/204771828)
+* [Amplitude HTTP API V2 Api Documentation](https://developers.amplitude.com/docs/http-api-v2)
 * [Segment.io Amplitude integration](https://segment.com/docs/integrations/amplitude/)
