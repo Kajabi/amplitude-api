@@ -89,7 +89,3 @@ background/asynchronous support into this gem.
 ## Other useful resources
 * [Amplitude HTTP API V2 Api Documentation](https://developers.amplitude.com/docs/http-api-v2)
 * [Segment.io Amplitude integration](https://segment.com/docs/integrations/amplitude/)
-
-## Contributing
-
-I'd love to hear how you're using this. Please check out the [issues](https://github.com/toothrot/amplitude-api/issues).
